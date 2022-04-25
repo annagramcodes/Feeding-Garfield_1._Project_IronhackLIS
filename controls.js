@@ -25,7 +25,3 @@ class Controls {
     }
 }
 
-// document.addEventListener('keyup', (e) => {
-//     cat.speedX = 0;
-//     cat.speedY = 0;
-// });

@@ -16,7 +16,8 @@ class Game {
     }
     start() {
         this.cat = new Cat(this, 250, 400, 60, 90)
-        this.cat.draw();
+        // this.cat.draw();
+        this.cat.drawAnimation();
         this.controls = new Controls(this);
         this.controls.keyboardEvents();
         this.intervalId = setInterval(() => {
@@ -35,7 +36,7 @@ class Game {
         this.drawBackground();
         this.drawTime();
         this.drawScore();
-        this.cat.draw();
+        this.cat.drawAnimation();
         this.createFriends();
         this.friends.forEach((friend) => {
             friend.y++;
@@ -73,6 +74,7 @@ class Game {
             if(cat.crashesWith(friend)){
                 this.score++
                 arr.splice(i, 1);
+
             }
         })
      }
