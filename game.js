@@ -9,6 +9,7 @@ class Game {
         this.background = this.drawBackground();
         this.frames = 0;
         this.score = 0;
+        this.time = 60;
         this.cat = null;
         this.friends = [];
         this.enemies = [];
@@ -22,6 +23,10 @@ class Game {
             this.update();
         }
             , 1000 / 60)
+        this.scoreIntervalId = setInterval(() => {
+            this.keepScore();
+            this.time--
+        }, 1000)
     };
 
     update() {
@@ -29,6 +34,7 @@ class Game {
         this.frames++
         this.drawBackground();
         this.drawTime();
+        this.drawScore();
         this.cat.draw();
         this.createFriends();
         this.friends.forEach((friend) => {
@@ -40,7 +46,7 @@ class Game {
             enemy.y++;
             enemy.drawEnemies();
         });
-        this.keepScore();
+        this.checkGameOver();
     }
     createFriends() {
         if (this.frames % 300 === 0) {
@@ -49,24 +55,24 @@ class Game {
     }
     createEnemies() {
         if (this.frames % 200 === 0) {
-          this.enemies.push(new Obstacles(this, 50, 30));
+          this.enemies.push(new Obstacles(this, 50, 30, 1));
         }
     }
     decreaseScore() {
         const cat = this.cat;
-        const crashed = this.enemies.forEach( (enemy) => {
+        const crashed = this.enemies.forEach( (enemy,i, arr) => {
             if(cat.crashesWith(enemy)){
-                this.score--
-                console.log(this.score);
+                this.score--;
+                arr.splice(i, 1);
             }
         })
     }
      increaseScore() {
         const cat = this.cat;
-        const crashed = this.friends.forEach( (friend) => {
+        const crashed = this.friends.forEach( (friend, i, arr) => {
             if(cat.crashesWith(friend)){
                 this.score++
-                console.log(this.score);
+                arr.splice(i, 1);
             }
         })
      }
@@ -76,15 +82,32 @@ class Game {
         this.increaseScore();
     }
 
+    checkGameOver() {
+        if (this.score === 10) {
+            this.stop();
+        } else if (this.time === 0) {
+            this.stop();
+        }
+    }
+    stop() {
+        clearInterval(this.intervalId);
+      }
+
     drawBackground() {
         this.ctx.fillStyle = 'lightgrey';
         this.ctx.fillRect(this.x, this.y, this.width, this.height)
     }
     drawTime() {
-        let time = 60 - Math.floor(this.frames / 60);
+        let time = this.time;
         this.ctx.font = '20px serif';
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(`time remaining: ${time}`, 100, 30);
+    }
+    drawScore() {
+        let score = this.score;
+        this.ctx.font = '20px serif';
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillText(`score: ${score}`, 10, 30);
       }
 }
 
