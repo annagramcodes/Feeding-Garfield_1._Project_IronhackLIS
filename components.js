@@ -14,35 +14,6 @@ class Cat {
     this.img.src = "./docs/assets/imgs/596dba64ed07ad6118f99900.png";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-    // drawAnimation() {
-    //     this.img.src =
-    //         "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
-    //     const spriteWidth = 44;
-    //     const spriteHeight = 60;
-      
-    //     let column = this.currentFrame % 3;
-    
-    //     if (this.game.frames % 8 === 0) {
-    //         this.currentFrame++;
-    //         let maxFrame = 9;
-    //         if (this.currentFrame > maxFrame) {
-    //             this.currentFrame = 0;
-    //         }
-    //     }
-    //     this.game.ctx.drawImage(
-    //         this.img,
-    //         column * spriteWidth,
-    //         57,
-    //         spriteWidth,
-    //         spriteHeight,
-    //         this.x,
-    //         this.y,
-    //         spriteWidth,
-    //         spriteHeight
-    //     );
-    // }
-
-    // 113, 44, 60, 3, 3
     drawAnimation() {
         this.img.src =
             "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
@@ -66,9 +37,11 @@ class Cat {
             spriteWidth,
             spriteHeight,
             this.x,
-            this.y,
-            spriteWidth,
-           spriteHeight
+          this.y,
+           45,
+            65
+          //   spriteWidth,
+          //  spriteHeight
         );
     }
     drawEatingCat() {
@@ -93,9 +66,11 @@ class Cat {
             spriteWidth,
             spriteHeight,
             this.x,
-            this.y,
-            spriteWidth,
-            spriteHeight
+          this.y,
+          60,
+            70
+            // spriteWidth,
+            // spriteHeight
         );
     }
     drawHurtCat() {
@@ -120,9 +95,11 @@ class Cat {
             spriteWidth,
             spriteHeight,
             this.x,
-            this.y,
-            spriteWidth,
-            spriteHeight
+          this.y,
+          66,
+            71
+            // spriteWidth,
+            // spriteHeight
         );
     }
 
@@ -195,15 +172,11 @@ class Obstacles {
   }
 
   drawFriends() {
-    this.img.src = "./docs/assets/imgs/pngwing.com.png";
+    this.img.src = "./docs/assets/imgs/lasagne.webp";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
   drawEnemies() {
     this.img.src = "./docs/assets/imgs/brokkoli.png";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-//   drawSuperFriends() {
-//     this.img.src = "./docs/assets/imgs/ice-cream-cone-ice-clip-art-image-9-ice-cream-clipart-dessert-food-creme-sweets-transparent-png-246883.png";
-//     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-//   }
 }

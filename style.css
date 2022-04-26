@@ -1,20 +1,57 @@
+* {
+}
+
+main {
+  font-family: "VT323", monospace;
+}
+
 #canvas {
   border: 5px solid black;
 }
 
-.container {
+main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .start {
   margin-top: 3rem;
+  border-radius: 2.5em;
   background-color: white;
-  border-radius: 1.5em;
-  border: 1px solid orange;
-  font-size: 20px;
+  border: 3px solid orange;
+  font-size: 3rem;
   box-shadow: none;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: antiquewhite;
+}
+
+.hidden {
+  display: none;
+}
+
+/* GAME OVER SCREEN */
+
+.winner-title {
+  font-size: 72px;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+.winner-msg {
+  font-size: 50px;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+.gameoverscreen {
+  margin: 0 auto;
+  width: 50vh;
+}
+
+.comic {
+  max-width: 900px;
 }

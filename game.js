@@ -1,12 +1,17 @@
 class Game {
     constructor() {
         this.canvas = document.getElementById('canvas');
+        this.gameoverScreen = document.querySelector('.gameover-screen-winner')
+        this.gameoverScreenLoser = document.querySelector('.gameover-screen-looser')
+        this.comic = document.querySelector('.comic')
+        this.numKg = document.querySelector('.num-kg')
         this.ctx = this.canvas.getContext('2d');
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.x = 0;
         this.y = 0;
-        this.background = this.drawBackground();
+        // this.background = this.drawBackground();
+        this.background = new Image();
         this.frames = 0;
         this.score = 0;
         this.time = 60;
@@ -14,7 +19,7 @@ class Game {
         this.friends = [];
         this.enemies = [];
         this.img = new Image();
-        this.num = Math.floor(Math.random() * 11);
+        this.num = Math.floor(Math.random() * 13);
     }
     start() {
         this.cat = new Cat(this, 300, 380, 60, 90)
@@ -67,8 +72,8 @@ class Game {
         this.checkGameOver();
     }
     createFriends() {
-        if (this.frames % 50 === 0) {
-            this.friends.push(new Obstacles(this, 70, 50));
+        if (this.frames % 200 === 0) {
+            this.friends.push(new Obstacles(this, 50, 50));
         }
     }
     createEnemies() {
@@ -80,7 +85,7 @@ class Game {
         const cat = this.cat;
         const crashed = this.enemies.forEach( (enemy,i, arr) => {
             if(cat.crashesWith(enemy)){
-                this.score--;
+                this.score -=2;
                 arr.splice(i, 1);
                 this.cat.isHurt = true;
                 this.cat.isEating = false;
@@ -107,7 +112,7 @@ class Game {
     }
 
     checkGameOver() {
-        if (this.score > 1) {
+        if (this.score > 10) {
             this.stop();
             this.drawWinner()
 
@@ -120,12 +125,16 @@ class Game {
     }
     stop() {
         clearInterval(this.intervalId);
+        // this.drawWinner();
+
     }
     
 
     drawBackground() {
-        this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.x, this.y, this.width, this.height)
+        // this.ctx.fillStyle = 'white';
+        // this.ctx.fillRect(this.x, this.y, this.width, this.height)
+        this.background.src = './docs/assets/imgs/bg-4.jpg'
+        this.ctx.drawImage(this.background, this.x ,this.y, this.width, this.height)
     }
     drawTime() {
         let time = this.time;
@@ -139,29 +148,41 @@ class Game {
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(`score: ${score}`, 10, 30);
     }
-    drawWinner() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = '32px sans-serif';
-        this.ctx.fillStyle = 'orange';
-        this.ctx.fillText(`YOU WON`, 200, 150);
-        this.ctx.fillRect = this.x, this.y, this.width, this.height;
-        this.img.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
-       
-        setInterval(() => { this.ctx.drawImage(this.img, 0, 250, 600, 200) }
-        , 100)
-    }
 
-    drawLoser() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.fillStyle = 'pink';
-        this.ctx.fillRect = this.x, this.y, this.width, this.height;
-        this.ctx.font = '20px serif';
-        this.ctx.fillStyle = 'Black';
-        this.img.src = '../docs/assets/imgs/garfieldcomic1.jpg';
-        this.ctx.drawImage(this.img, this.x ,this.y)
-        this.ctx.fillText(`YOU LOST`, 10, 30);
+    drawWinner() {
+        this.canvas.style.display = 'none';
+        this.gameoverScreen.style.display = 'block';
+        this.comic.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
+        this.numKg.innerHTML = `${Math.floor(Math.random() *(27-8) +8)}`
     }
+    drawLoser() {
+        this.canvas.style.display = 'none';
+        this.gameoverScreenLoser.style.display = 'block';
+    
+    }
+    // drawWinner() {
+    //     this.ctx.clearRect(0, 0, this.width, this.height);
+    //     this.ctx.fillStyle = 'white';
+    //     this.ctx.font = '32px sans-serif';
+    //     this.ctx.fillStyle = 'orange';
+    //     this.ctx.fillText(`YOU WON`, 200, 150);
+    //     this.ctx.fillRect = this.x, this.y, this.width, this.height;
+    //     this.img.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
+       
+    //     setInterval(() => { this.ctx.drawImage(this.img, 0, 250, 600, 200) }
+    //     , 100)
+    // }
+
+    // drawLoser() {
+    //     this.ctx.clearRect(0, 0, this.width, this.height);
+    //     this.ctx.fillStyle = 'pink';
+    //     this.ctx.fillRect = this.x, this.y, this.width, this.height;
+    //     this.ctx.font = '20px serif';
+    //     this.ctx.fillStyle = 'Black';
+    //     this.img.src = '../docs/assets/imgs/garfieldcomic1.jpg';
+    //     this.ctx.drawImage(this.img, this.x ,this.y)
+    //     this.ctx.fillText(`YOU LOST`, 10, 30);
+    // }
 }
 
 
