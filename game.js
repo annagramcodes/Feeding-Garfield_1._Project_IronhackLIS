@@ -13,10 +13,10 @@ class Game {
         this.cat = null;
         this.friends = [];
         this.enemies = [];
+        this.superFriends = [];
     }
     start() {
-        this.cat = new Cat(this, 250, 400, 60, 90)
-        // this.cat.draw();
+        this.cat = new Cat(this, 300, 310, 60, 90)
         this.cat.drawAnimation();
         this.controls = new Controls(this);
         this.controls.keyboardEvents();
@@ -24,10 +24,12 @@ class Game {
             this.update();
         }
             , 1000 / 60)
-        this.scoreIntervalId = setInterval(() => {
-            this.keepScore();
+        this.timeIntervalId = setInterval(() => {
             this.time--
         }, 1000)
+        this.scoreIntervalId = setInterval(() => {
+            this.keepScore();
+        }, 500)
     };
 
     update() {
@@ -36,12 +38,25 @@ class Game {
         this.drawBackground();
         this.drawTime();
         this.drawScore();
-        this.cat.drawAnimation();
+        if (this.cat.isEating === false &&
+            this.cat.isHurt === false) {
+            this.cat.drawAnimation();
+        }
+        if(this.cat.isEating === true){
+            this.cat.drawEatingCat();
+        }
+        if (this.cat.isHurt === true) {
+            this.cat.drawHurtCat();
+        }
         this.createFriends();
         this.friends.forEach((friend) => {
             friend.y++;
             friend.drawFriends();
         });
+        // this.superFriends.forEach((friend) => {
+        //     friend.y++;
+        //     friend.drawSuperFriends();
+        // });
         this.createEnemies();
         this.enemies.forEach((enemy) => {
             enemy.y++;
@@ -50,12 +65,15 @@ class Game {
         this.checkGameOver();
     }
     createFriends() {
-        if (this.frames % 300 === 0) {
-          this.friends.push(new Obstacles(this, 70, 50));
+        if (this.frames % 200 === 0) {
+            this.friends.push(new Obstacles(this, 70, 50));
         }
+        // if (this.frames % 1000 === 0) {
+        //     this.superFriends.push(new Obstacles(this, 20, 30));
+        // }
     }
     createEnemies() {
-        if (this.frames % 200 === 0) {
+        if (this.frames % 100 === 0) {
           this.enemies.push(new Obstacles(this, 50, 30, 1));
         }
     }
@@ -65,6 +83,8 @@ class Game {
             if(cat.crashesWith(enemy)){
                 this.score--;
                 arr.splice(i, 1);
+                this.cat.isHurt = true;
+                setTimeout(() => { this.cat.isHurt = false }, 1000)
             }
         })
     }
@@ -74,10 +94,22 @@ class Game {
             if(cat.crashesWith(friend)){
                 this.score++
                 arr.splice(i, 1);
-
+                this.cat.isEating = true;
+                setTimeout(() => { this.cat.isEating = false }, 1000)
             }
         })
      }
+    crashAnimation() {
+        
+    }
+    // killEnemies() {
+    //     const cat = this.cat;
+    //     const crashed = this.superFriends.forEach((friend) => {
+    //         if (cat.crashesWith(friend)) {
+    //             this.enemies = [];
+    //         }
+    //     })
+    // }
     keepScore() {
         let score = this.score;
         this.decreaseScore();
