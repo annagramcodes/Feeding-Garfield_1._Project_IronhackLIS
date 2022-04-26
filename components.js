@@ -68,7 +68,7 @@ class Cat {
             this.x,
             this.y,
             spriteWidth,
-            spriteHeight
+           spriteHeight
         );
     }
     drawEatingCat() {
@@ -77,7 +77,7 @@ class Cat {
         const spriteWidth = 50;
         const spriteHeight = 60;
       
-        let column = this.currentFrame % 5;
+        let column = this.currentFrame % 4;
     
         if (this.game.frames % 8 === 0) {
             this.currentFrame++;
@@ -95,7 +95,7 @@ class Cat {
             this.x,
             this.y,
             spriteWidth,
-            spriteHeight,
+            spriteHeight
         );
     }
     drawHurtCat() {
@@ -122,28 +122,28 @@ class Cat {
             this.x,
             this.y,
             spriteWidth,
-            spriteHeight,
+            spriteHeight
         );
     }
 
   moveUp() {
     if (this.y > 0) {
-      this.y -= 10;
+      this.y -= 12;
     }
   }
   moveDown() {
     if (this.y + this.height < this.game.height) {
-      this.y += 10;
+      this.y += 12;
     }
   }
   moveRight() {
     if (this.x + this.width < this.game.width) {
-      this.x += 10;
+      this.x += 12;
     }
   }
   moveLeft() {
     if (this.x > 0) {
-      this.x -= 10;
+      this.x -= 12;
     }
   }
   left() {

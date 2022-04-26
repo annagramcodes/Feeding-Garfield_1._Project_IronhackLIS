@@ -13,10 +13,11 @@ class Game {
         this.cat = null;
         this.friends = [];
         this.enemies = [];
-        this.superFriends = [];
+        this.img = new Image();
+        this.num = Math.floor(Math.random() * 11);
     }
     start() {
-        this.cat = new Cat(this, 300, 310, 60, 90)
+        this.cat = new Cat(this, 300, 380, 60, 90)
         this.cat.drawAnimation();
         this.controls = new Controls(this);
         this.controls.keyboardEvents();
@@ -35,6 +36,7 @@ class Game {
     update() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.frames++
+        // this.drawWinner();
         this.drawBackground();
         this.drawTime();
         this.drawScore();
@@ -65,84 +67,101 @@ class Game {
         this.checkGameOver();
     }
     createFriends() {
-        if (this.frames % 200 === 0) {
+        if (this.frames % 50 === 0) {
             this.friends.push(new Obstacles(this, 70, 50));
         }
-        // if (this.frames % 1000 === 0) {
-        //     this.superFriends.push(new Obstacles(this, 20, 30));
-        // }
     }
     createEnemies() {
         if (this.frames % 100 === 0) {
           this.enemies.push(new Obstacles(this, 50, 30, 1));
         }
     }
-    decreaseScore() {
+    crashWithEnemy() {
         const cat = this.cat;
         const crashed = this.enemies.forEach( (enemy,i, arr) => {
             if(cat.crashesWith(enemy)){
                 this.score--;
                 arr.splice(i, 1);
                 this.cat.isHurt = true;
+                this.cat.isEating = false;
                 setTimeout(() => { this.cat.isHurt = false }, 1000)
             }
         })
     }
-     increaseScore() {
+    crashWithFriend() {
         const cat = this.cat;
         const crashed = this.friends.forEach( (friend, i, arr) => {
             if(cat.crashesWith(friend)){
                 this.score++
                 arr.splice(i, 1);
                 this.cat.isEating = true;
+                this.cat.isHurt = false;
                 setTimeout(() => { this.cat.isEating = false }, 1000)
             }
         })
      }
-    crashAnimation() {
-        
-    }
-    // killEnemies() {
-    //     const cat = this.cat;
-    //     const crashed = this.superFriends.forEach((friend) => {
-    //         if (cat.crashesWith(friend)) {
-    //             this.enemies = [];
-    //         }
-    //     })
-    // }
     keepScore() {
         let score = this.score;
-        this.decreaseScore();
-        this.increaseScore();
+        this.crashWithEnemy();
+        this.crashWithFriend();
     }
 
     checkGameOver() {
-        if (this.score === 10) {
+        if (this.score > 1) {
             this.stop();
+            this.drawWinner()
+
+            
+
         } else if (this.time === 0) {
             this.stop();
+            this.drawLoser();
         }
     }
     stop() {
         clearInterval(this.intervalId);
-      }
+    }
+    
 
     drawBackground() {
-        this.ctx.fillStyle = 'lightgrey';
+        this.ctx.fillStyle = 'white';
         this.ctx.fillRect(this.x, this.y, this.width, this.height)
     }
     drawTime() {
         let time = this.time;
         this.ctx.font = '20px serif';
         this.ctx.fillStyle = 'white';
-        this.ctx.fillText(`time remaining: ${time}`, 100, 30);
+        this.ctx.fillText(`Time: ${time}`, 100, 30);
     }
     drawScore() {
         let score = this.score;
         this.ctx.font = '20px serif';
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(`score: ${score}`, 10, 30);
-      }
+    }
+    drawWinner() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '32px sans-serif';
+        this.ctx.fillStyle = 'orange';
+        this.ctx.fillText(`YOU WON`, 200, 150);
+        this.ctx.fillRect = this.x, this.y, this.width, this.height;
+        this.img.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
+       
+        setInterval(() => { this.ctx.drawImage(this.img, 0, 250, 600, 200) }
+        , 100)
+    }
+
+    drawLoser() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx.fillStyle = 'pink';
+        this.ctx.fillRect = this.x, this.y, this.width, this.height;
+        this.ctx.font = '20px serif';
+        this.ctx.fillStyle = 'Black';
+        this.img.src = '../docs/assets/imgs/garfieldcomic1.jpg';
+        this.ctx.drawImage(this.img, this.x ,this.y)
+        this.ctx.fillText(`YOU LOST`, 10, 30);
+    }
 }
 
 

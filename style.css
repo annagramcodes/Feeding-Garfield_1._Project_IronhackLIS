@@ -1,3 +1,20 @@
 #canvas {
   border: 5px solid black;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start {
+  margin-top: 3rem;
+  background-color: white;
+  border-radius: 1.5em;
+  border: 1px solid orange;
+  font-size: 20px;
+  box-shadow: none;
+  padding: 1rem 2rem;
+}
