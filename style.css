@@ -1,43 +1,102 @@
 * {
   font-family: "VT323", monospace;
 }
-body {
-  background: -webkit-linear-gradient(to right, #f37335, #fdc830);
-  background: linear-gradient(to right, #f37335, #fdc830);
+
+:root {
+  --color-garfield-100: #fceed4;
+  --color-garfield-200: #fce2b1;
+  --color-garfield-300: #fccb6f;
+  --color-garfield-400: #fcbc44;
+  --color-garfield-500: #fcaa18;
+  --color-garfield-900: #3b2706;
+}
+.amnesia {
+  background-color: var(--color-garfield-100);
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    radial-gradient(
+      at 50% 0%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 50%
+    );
+  background-blend-mode: soft-light, screen;
 }
 
 #canvas {
-  border: 5px solid black;
+  border: 5px solid var(--color-garfield-900);
 }
 
 main {
+  padding: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
+button {
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+button:hover {
+  transition: background-color 100ms ease-in-out;
+}
+.intro-container {
+  display: flex;
+  max-width: 60vw;
+}
+
+.intro-text h2 {
+  font-size: 3rem;
+  padding-bottom: 2rem;
+  line-height: 0.8;
+}
+.intro-text h3 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.intro-text p {
+  font-size: 1.8rem;
+  padding-bottom: 1.5rem;
+}
+.keys {
+  max-width: 10vw;
+  margin: 0 auto;
+  display: block;
+  padding-bottom: 1.5rem;
+}
 
 .start {
-  margin-top: 3rem;
   border-radius: 2.5em;
-  background-color: white;
-  border: 3px solid orange;
-  font-size: 3rem;
+  border: 3px solid var(--color-garfield-500);
+  font-size: 5rem;
   box-shadow: none;
-  padding: 1rem 3rem;
+  padding: 1rem 5rem;
   font-family: inherit;
   text-transform: uppercase;
+  background-color: var(--color-garfield-100);
   font-weight: bold;
-  background-color: antiquewhite;
+  display: block;
+}
+.start:hover,
+#restart-won:hover,
+#restart-lost:hover {
+  background-color: var(--color-garfield-200);
+}
+
+.button-container {
+  padding-top: 2rem;
+}
+.button-container .start {
+  margin: 0 auto;
 }
 
 /* GAME OVER SCREEN  WINNER*/
-.gameover-screen-loser,
-.gameover-screen-loser {
-  background-color: white;
-  padding: 4rem;
-}
+
 .winner-title {
   font-size: 4.5rem;
   text-align: center;
@@ -50,10 +109,7 @@ main {
 }
 .gameover-screen-winner {
   margin: 0 auto;
-  padding: 2rem;
-  border-radius: 4px;
   width: 70vw;
-  background: white;
 }
 .flex-container {
   display: flex;
@@ -97,14 +153,14 @@ main {
 #restart-lost {
   margin-top: 3.3rem;
   border-radius: 2.5em;
-  border: 3px solid rgb(250, 168, 16);
+  border: 3px solid var(--color-garfield-500);
   font-size: 2rem;
   box-shadow: none;
   padding: 0.8rem 5rem;
   font-family: inherit;
   text-transform: uppercase;
   font-weight: bold;
-  background-color: antiquewhite;
+  background-color: var(--color-garfield-100);
 }
 
 .hidden {

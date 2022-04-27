@@ -15,15 +15,23 @@ const restartBtnWon = document.getElementById('restart-won')
 startBtn.addEventListener('click', () => {
     startScreen.classList.add('hidden');
     canvas.classList.remove('hidden');
-     const game = new Game();
+    const game = new Game();
     game.start();
 })
 
 restartBtnLost.addEventListener('click', () => {
     loserScreen.classList.add('hidden');
-    canvas.classList.remove('hidden');
-     const game = new Game();
+    const game = new Game();
+    canvas.classList.remove("hidden")
     game.start();
-    console.log("Im being clicked")
 })
+restartBtnWon.addEventListener('click', () => {
+    winnerScreen.classList.add('hidden');
+    const game = new Game();
+    canvas.classList.remove('hidden')
+    game.start();
+})
+
 }
+
+

@@ -150,8 +150,18 @@ class Cat {
 class Obstacles {
   constructor(game, width, height) {
     this.game = game;
-    this.x = Math.floor(Math.random()*(600-50) +50);
-    this.y = 0;
+
+    if (randomBoolean()) {
+      this.x = Math.floor(Math.random()*(600-50) +50);
+      this.y = 0;
+    } else {
+      this.x = Math.round(Math.random()) * this.game.width;
+      this.y =  Math.floor(Math.random()*100);
+    }
+    this.origin = {
+      x: this.x,
+      y: this.y
+    }
     this.width = width;
     this.height = height;
     this.img = new Image();

@@ -12,14 +12,38 @@
     />
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
-    <title>Project 1</title>
+    <title>Feed Garfield!</title>
   </head>
-  <body>
+  <body class="amnesia">
     <main>
       <div class="start-screen">
-        <button class="start">Start Game</button>
-        <img src="" alt="" />
+        <div class="intro-container">
+          <div class="intro-text">
+            <h2 class="intro-title">
+              John put Garfield on a diet again.<br />
+              This is unacceptable!
+            </h2>
+            <h3 class="instructions">Instructions:</h3>
+            <p>
+              Move Garfield with the Arrows to avoid the broccoli and carrots
+              and instead navigate him to his favorite foods.
+            </p>
+            <div class="keys-container">
+              <img
+                class="keys"
+                src="./docs/assets/imgs/keys.png"
+                alt="Arrow Keys for Navigation"
+              />
+            </div>
+            <p>To win you must collect 10 points, before your time is up!</p>
+          </div>
+          <img src="./docs/assets/imgs/garfield-lasagna.png" alt="" />
+        </div>
+        <div class="button-container">
+          <button class="start">Start Game</button>
+        </div>
       </div>
+
       <div class="canvas-container hidden">
         <canvas id="canvas" width="600" height="450"> </canvas>
       </div>
@@ -55,5 +79,6 @@
     <script src="./controls.js"></script>
     <script src="./game.js"></script>
     <script src="./index.js"></script>
+    <script src="./utils.js"></script>
   </body>
 </html>
