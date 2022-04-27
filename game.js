@@ -96,7 +96,7 @@ class Game {
         }
     }
     createCake() {
-        if (this.frames % 400 === 0) {
+        if (this.frames % 300 === 0) {
             this.cake.push(new Obstacles(this, 50, 30));
         }
     }
@@ -187,7 +187,7 @@ class Game {
     drawBackground() {
         // this.ctx.fillStyle = 'white';
         // this.ctx.fillRect(this.x, this.y, this.width, this.height)
-        this.background.src = './docs/assets/imgs/bg-4.jpg'
+        this.background.src = './docs/assets/imgs/bg4.jpeg'
         this.ctx.drawImage(this.background, this.x ,this.y, this.width, this.height)
     }
     drawTime() {
