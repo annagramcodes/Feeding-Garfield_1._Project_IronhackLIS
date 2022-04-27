@@ -105,22 +105,22 @@ class Cat {
 
   moveUp() {
     if (this.y > 0) {
-      this.y -= 12;
+      this.y -= 20;
     }
   }
   moveDown() {
     if (this.y + this.height < this.game.height) {
-      this.y += 12;
+      this.y += 20;
     }
   }
   moveRight() {
     if (this.x + this.width < this.game.width) {
-      this.x += 12;
+      this.x += 20;
     }
   }
   moveLeft() {
     if (this.x > 0) {
-      this.x -= 12;
+      this.x -= 20;
     }
   }
   left() {
@@ -150,7 +150,7 @@ class Cat {
 class Obstacles {
   constructor(game, width, height) {
     this.game = game;
-    this.x = Math.floor(Math.random() * 500);
+    this.x = Math.floor(Math.random()*(600-50) +50);
     this.y = 0;
     this.width = width;
     this.height = height;
@@ -171,12 +171,20 @@ class Obstacles {
     return this.y + this.height;
   }
 
-  drawFriends() {
+  drawLasagne() {
     this.img.src = "./docs/assets/imgs/lasagne.webp";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-  drawEnemies() {
+  drawCake() {
+    this.img.src = "./docs/assets/imgs/cake.png";
+    this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+  drawBroccoli() {
     this.img.src = "./docs/assets/imgs/brokkoli.png";
+    this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+  drawCarrot() {
+    this.img.src = "./docs/assets/imgs/carrot.png";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 }

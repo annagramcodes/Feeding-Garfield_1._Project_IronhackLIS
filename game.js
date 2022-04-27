@@ -1,3 +1,5 @@
+
+
 class Game {
     constructor() {
         this.canvas = document.getElementById('canvas');
@@ -10,14 +12,15 @@ class Game {
         this.height = this.canvas.height;
         this.x = 0;
         this.y = 0;
-        // this.background = this.drawBackground();
         this.background = new Image();
         this.frames = 0;
         this.score = 0;
         this.time = 60;
         this.cat = null;
-        this.friends = [];
-        this.enemies = [];
+        this.lasagne = [];
+        this.broccoli = [];
+        this.carrot = [];
+        this.cake =[];
         this.img = new Image();
         this.num = Math.floor(Math.random() * 13);
     }
@@ -38,64 +41,104 @@ class Game {
         }, 500)
     };
 
+// UPDATES THE CANVAS
     update() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.frames++
-        // this.drawWinner();
+        //updates canvas
         this.drawBackground();
         this.drawTime();
         this.drawScore();
+
+        //updates Animation of the cat
         if (this.cat.isEating === false &&
             this.cat.isHurt === false) {
             this.cat.drawAnimation();
         }
-        if(this.cat.isEating === true){
+        if (this.cat.isEating === true) {
             this.cat.drawEatingCat();
         }
         if (this.cat.isHurt === true) {
             this.cat.drawHurtCat();
         }
-        this.createFriends();
-        this.friends.forEach((friend) => {
-            friend.y++;
-            friend.drawFriends();
+        //CREATES AND DRAWS FRIENDS & ENEMIES
+        this.createLasagne();
+        this.lasagne.forEach((friend) => {
+            friend.drawLasagne();
+            friend.y += 2;
+            // friend.x++ 
         });
-        // this.superFriends.forEach((friend) => {
-        //     friend.y++;
-        //     friend.drawSuperFriends();
-        // });
-        this.createEnemies();
-        this.enemies.forEach((enemy) => {
-            enemy.y++;
-            enemy.drawEnemies();
+        this.createCake();
+        this.cake.forEach((friend) => {
+            friend.drawCake();
+            friend.y += 2;
+            
+        });
+        this.createBroccoli();
+        this.broccoli.forEach((enemy) => {
+            enemy.drawBroccoli();
+            enemy.y += 2;
+            // enemy.x += 1;
+        });
+        this.createCarrot();
+        this.carrot.forEach((enemy) => {
+            enemy.drawCarrot();
+            enemy.y += 2;
+            enemy.x -= 1;
         });
         this.checkGameOver();
     }
-    createFriends() {
+
+// PUSHES ENEMIES & FRIENDS INTO ARRAY
+    createLasagne() {
         if (this.frames % 200 === 0) {
-            this.friends.push(new Obstacles(this, 50, 50));
+            this.lasagne.push(new Obstacles(this, 50, 50));
         }
     }
-    createEnemies() {
+    createCake() {
+        if (this.frames % 400 === 0) {
+            this.cake.push(new Obstacles(this, 50, 30));
+        }
+    }
+    createBroccoli() {
+        if (this.frames % 100 === 1) {
+          this.broccoli.push(new Obstacles(this, 50, 30));
+        }
+    }
+    createCarrot() {
         if (this.frames % 100 === 0) {
-          this.enemies.push(new Obstacles(this, 50, 30, 1));
-        }
+            this.carrot.push(new Obstacles(this, 50, 50));
+          }
     }
+
+    //Collission Detection
     crashWithEnemy() {
         const cat = this.cat;
-        const crashed = this.enemies.forEach( (enemy,i, arr) => {
+        const crashedWithCarrot = this.carrot.forEach((enemy, i, arr) => {
             if(cat.crashesWith(enemy)){
-                this.score -=2;
+                this.score--;
                 arr.splice(i, 1);
                 this.cat.isHurt = true;
                 this.cat.isEating = false;
                 setTimeout(() => { this.cat.isHurt = false }, 1000)
             }
+            
+        })
+        const crashedWithBroccoli =
+            this.broccoli.forEach((enemy, i, arr) => {
+            if(cat.crashesWith(enemy)){
+                this.score--;
+                arr.splice(i, 1);
+                this.cat.isHurt = true;
+                this.cat.isEating = false;
+                setTimeout(() => { this.cat.isHurt = false }, 1000)
+            }
+            
         })
     }
     crashWithFriend() {
         const cat = this.cat;
-        const crashed = this.friends.forEach( (friend, i, arr) => {
+        const crashedWidthLasagne = this.lasagne.forEach( (friend, i, arr) => {
             if(cat.crashesWith(friend)){
                 this.score++
                 arr.splice(i, 1);
@@ -104,7 +147,20 @@ class Game {
                 setTimeout(() => { this.cat.isEating = false }, 1000)
             }
         })
-     }
+        const crashedWithCake =
+            this.cake.forEach((friend, i, arr) => {
+            if(cat.crashesWith(friend)){
+                this.score++
+                arr.splice(i, 1);
+                this.broccoli.splice(0, this.broccoli.length)
+                this.carrot.splice(0, this.carrot.length)
+                this.cat.isEating = true;
+                this.cat.isHurt = false;
+                setTimeout(() => { this.cat.isEating = false }, 1000)
+            }
+        })
+    }
+    // SCORE KEEPING & CHECK GAME OVER
     keepScore() {
         let score = this.score;
         this.crashWithEnemy();
@@ -112,11 +168,9 @@ class Game {
     }
 
     checkGameOver() {
-        if (this.score > 10) {
+        if (this.score > 9) {
             this.stop();
             this.drawWinner()
-
-            
 
         } else if (this.time === 0) {
             this.stop();
@@ -125,11 +179,11 @@ class Game {
     }
     stop() {
         clearInterval(this.intervalId);
-        // this.drawWinner();
 
     }
     
-
+// DRAWING METHODS
+    
     drawBackground() {
         // this.ctx.fillStyle = 'white';
         // this.ctx.fillRect(this.x, this.y, this.width, this.height)
