@@ -18,24 +18,37 @@
     <main>
       <div class="start-screen">
         <button class="start">Start Game</button>
+        <img src="" alt="" />
       </div>
       <div class="canvas-container hidden">
         <canvas id="canvas" width="600" height="450"> </canvas>
       </div>
       <div class="gameover-screen-winner hidden">
-        <h1 class="winner-title">You win!</h1>
-        <h2 class="winner-msg">
-          You fed Garfield <span class="num-kg"></span>kgs of Lasagne!
-        </h2>
-        <img class="comic" src="" alt="" />
+        <div class="flex-container">
+          <h1 class="winner-title">You win!</h1>
+          <h2 class="winner-msg">
+            You fed Garfield <span class="num-kg"></span>kgs of Lasagne!
+          </h2>
+          <img class="comic" src="" alt="Funny Comic with Garfield" />
+          <button id="restart-won">play again</button>
+        </div>
       </div>
-      <div class="gameover-screen-looser hidden">
-        <h2>YOU LOST</h2>
-        <img
-          class="img-loser"
-          src="./docs/assets/imgs/garfield-skinny.png"
-          alt=""
-        />
+      <div class="gameover-screen-loser hidden">
+        <div class="flex">
+          <div class="col">
+            <h2 class="loser-title">you lost!</h2>
+            <p class="loser-msg">Skinny Garfield is not impressed.</p>
+            <p class="loser-msg">
+              Let's try and refeed him by playing another round!
+            </p>
+            <button id="restart-lost">play again</button>
+          </div>
+          <img
+            class="img-loser"
+            src="./docs/assets/imgs/garfield-skinny.png"
+            alt="Image of thin Garfield"
+          />
+        </div>
       </div>
     </main>
     <script src="./components.js"></script>

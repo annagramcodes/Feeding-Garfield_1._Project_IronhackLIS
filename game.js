@@ -3,8 +3,8 @@
 class Game {
     constructor() {
         this.canvas = document.getElementById('canvas');
-        this.gameoverScreen = document.querySelector('.gameover-screen-winner')
-        this.gameoverScreenLoser = document.querySelector('.gameover-screen-looser')
+        this.gameoverScreenWinner = document.querySelector('.gameover-screen-winner')
+        this.gameoverScreenLoser = document.querySelector('.gameover-screen-loser')
         this.comic = document.querySelector('.comic')
         this.numKg = document.querySelector('.num-kg')
         this.ctx = this.canvas.getContext('2d');
@@ -91,7 +91,7 @@ class Game {
 
 // PUSHES ENEMIES & FRIENDS INTO ARRAY
     createLasagne() {
-        if (this.frames % 200 === 0) {
+        if (this.frames % 150 === 0) {
             this.lasagne.push(new Obstacles(this, 50, 50));
         }
     }
@@ -150,7 +150,7 @@ class Game {
         const crashedWithCake =
             this.cake.forEach((friend, i, arr) => {
             if(cat.crashesWith(friend)){
-                this.score++
+                this.score += 2;
                 arr.splice(i, 1);
                 this.broccoli.splice(0, this.broccoli.length)
                 this.carrot.splice(0, this.carrot.length)
@@ -172,7 +172,7 @@ class Game {
             this.stop();
             this.drawWinner()
 
-        } else if (this.time === 0) {
+        } else if (this.time < 1) {
             this.stop();
             this.drawLoser();
         }
@@ -192,26 +192,26 @@ class Game {
     }
     drawTime() {
         let time = this.time;
-        this.ctx.font = '20px serif';
+        this.ctx.font = '20px sans-serif';
         this.ctx.fillStyle = 'white';
-        this.ctx.fillText(`Time: ${time}`, 100, 30);
+        this.ctx.fillText(`Time: ${time}`, 500, 30);
     }
     drawScore() {
         let score = this.score;
-        this.ctx.font = '20px serif';
+        this.ctx.font = '20px sans-serif';
         this.ctx.fillStyle = 'white';
-        this.ctx.fillText(`score: ${score}`, 10, 30);
+        this.ctx.fillText(`Score: ${score}`, 10, 30);
     }
 
     drawWinner() {
-        this.canvas.style.display = 'none';
-        this.gameoverScreen.style.display = 'block';
+        this.canvas.classList.add('hidden')
+        this.gameoverScreenWinner.classList.remove('hidden')
         this.comic.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
         this.numKg.innerHTML = `${Math.floor(Math.random() *(27-8) +8)}`
     }
     drawLoser() {
-        this.canvas.style.display = 'none';
-        this.gameoverScreenLoser.style.display = 'block';
+        this.canvas.classList.add('hidden')
+        this.gameoverScreenLoser.classList.remove('hidden')
     
     }
     // drawWinner() {
