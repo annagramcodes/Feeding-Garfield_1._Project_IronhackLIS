@@ -156,9 +156,9 @@ class Game {
       if (cat.crashesWith(enemy)) {
         this.score-=2;
         arr.splice(i, 1);
+        this.makeAngrySound();
         this.cat.isHurt = true;
         this.cat.isEating = false;
-        this.makeAngrySound();
         setTimeout(() => {
           this.cat.isHurt = false;
         }, 800);
@@ -210,22 +210,19 @@ class Game {
     if (this.score > 15 && this.time >= 60) {
       this.stop();
       this.drawWinner();
-    } else if (this.score < 4) {
+    } else if (this.score < 3) {
       this.stop();
       this.drawLoser();
     } else if (this.time >= 60 && this.score < 15) {
         this.stop();
-        this.drawLoser();
+      this.drawLoser();
       }
   }
   stop() {
     clearInterval(this.intervalId);
   }
-
   // DRAWING METHODS
   drawBackground() {
-    // this.ctx.fillStyle = 'white';
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height)
     this.background.src = "./docs/assets/imgs/bg5.png";
     this.ctx.drawImage(
       this.background,
@@ -245,7 +242,7 @@ class Game {
     let score = this.score;
     this.ctx.font = "20px sans-serif";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(`Kilogramms: ${score}`, 10, 30);
+    this.ctx.fillText(`Kilograms: ${score}`, 10, 30);
   }
   drawWinner() {
     this.canvasContainer.classList.add("hidden");
@@ -258,12 +255,19 @@ class Game {
   drawLoser() {
     this.canvasContainer.classList.add("hidden");
     this.gameoverScreenLoser.classList.remove("hidden");
+    this.loserSound();
   }
   // SOUNDS
   makeAngrySound() {
-  this.sound.src = './docs/assets/sounds/mixkit-angry-cartoon-kitty-meow-94.wav';
+  this.sound.src = './docs/assets/sounds/mixkit-little-cat-pain-meow-87.wav';
     this.sound.volume = 0.05;
     this.sound.loop = false;
     this.sound.play();
   }
+  loserSound() {
+    this.sound.src = './docs/assets/sounds/This Sucks.mp3';
+      this.sound.volume = 0.05;
+      this.sound.loop = false;
+      this.sound.play();
+    }
 }
