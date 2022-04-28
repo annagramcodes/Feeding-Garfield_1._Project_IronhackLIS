@@ -29,7 +29,9 @@ class Game {
     this.cat = new Cat(this, 300, 380, 60, 90);
     this.cat.drawAnimation();
     this.controls = new Controls(this);
-    this.controls.keyboardEvents();
+    // this.controls.keyboardEvents();
+      this.controls.keyDown();
+      this.controls.keyUp()
     this.intervalId = setInterval(() => {
       this.update();
     }, 1000 / 60);
@@ -39,6 +41,7 @@ class Game {
     this.scoreIntervalId = setInterval(() => {
       this.keepScore();
     }, 500);
+
   }
 
   // UPDATES THE CANVAS
@@ -49,7 +52,6 @@ class Game {
     this.drawBackground();
     this.drawTime();
     this.drawScore();
-
     //updates Animation of the cat
     if (this.cat.isEating === false && this.cat.isHurt === false) {
       this.cat.drawAnimation();
@@ -101,7 +103,7 @@ class Game {
     }
   }
   createCake() {
-    if (this.frames % 350 === 0) {
+    if (this.frames % 500 === 0) {
       this.cake.push(new Obstacles(this, 50, 30));
     }
   }
@@ -216,6 +218,8 @@ class Game {
     this.gameoverScreenWinner.classList.remove("hidden");
     this.comic.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
     this.numKg.innerHTML = `${Math.floor(Math.random() * (27 - 8) + 8)}`;
+    const fireworks = new window.Fireworks(document.querySelector('.fireworks'));
+    fireworks.start();
   }
   drawLoser() {
     this.canvasContainer.classList.add("hidden");

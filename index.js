@@ -11,7 +11,6 @@ const restartBtnLost = document.getElementById('restart-lost')
 const restartBtnWon = document.getElementById('restart-won')
 
 
-
 startBtn.addEventListener('click', () => {
     startScreen.classList.add('hidden');
     canvas.classList.remove('hidden');

@@ -166,3 +166,11 @@ button:hover {
 .hidden {
   display: none;
 }
+.fireworks {
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+}

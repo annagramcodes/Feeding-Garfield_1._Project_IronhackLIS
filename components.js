@@ -1,126 +1,129 @@
 class Cat {
+
   constructor(game, x, y, width, height) {
     this.game = game;
     this.x = x;
     this.y = y;
     this.width = width;
-      this.height = height;
-      this.currentFrame = 0;
-      this.isEating = false;
-      this.isHurt = false;
+    this.height = height;
+    this.currentFrame = 0;
+    this.isEating = false;
+    this.isHurt = false;
     this.img = new Image();
+    // new key events
+    this.arrowDown = false;
+    this.arrowUp = false;
+    this.arrowLeft = false;
+    this.arrowRight = false;
+    this.speedX = 20;
+    this.speedY = 20;
   }
   draw() {
     this.img.src = "./docs/assets/imgs/596dba64ed07ad6118f99900.png";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-    drawAnimation() {
-        this.img.src =
-            "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
-        const spriteWidth = 35;
-        const spriteHeight = 54;
-      
-        let column = this.currentFrame % 5;
-        let row = 4;
-    
-        if (this.game.frames % 8 === 0) {
-            this.currentFrame++;
-            let maxFrame = 4;
-            if (this.currentFrame > maxFrame) {
-                this.currentFrame = 0;
-            }
-        }
-        this.game.ctx.drawImage(
-            this.img,
-            column * spriteWidth,
-            267,
-            spriteWidth,
-            spriteHeight,
-            this.x,
-          this.y,
-           45,
-            65
-          //   spriteWidth,
-          //  spriteHeight
-        );
+  drawAnimation() {
+    this.img.src =
+      "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
+    const spriteWidth = 35;
+    const spriteHeight = 54;
+
+    let column = this.currentFrame % 5;
+    let row = 4;
+
+    if (this.game.frames % 8 === 0) {
+      this.currentFrame++;
+      let maxFrame = 4;
+      if (this.currentFrame > maxFrame) {
+        this.currentFrame = 0;
+      }
     }
-    drawEatingCat() {
-        this.img.src =
-            "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
-        const spriteWidth = 50;
-        const spriteHeight = 60;
-      
-        let column = this.currentFrame % 4;
-    
-        if (this.game.frames % 8 === 0) {
-            this.currentFrame++;
-            let maxFrame = 3;
-            if (this.currentFrame > maxFrame) {
-                this.currentFrame = 0;
-            }
-        }
-        this.game.ctx.drawImage(
-            this.img,
-            column * spriteWidth,
-            453,
-            spriteWidth,
-            spriteHeight,
-            this.x,
-          this.y,
-          60,
-            70
-            // spriteWidth,
-            // spriteHeight
-        );
+    this.game.ctx.drawImage(
+      this.img,
+      column * spriteWidth,
+      267,
+      spriteWidth,
+      spriteHeight,
+      this.x,
+      this.y,
+      45,
+      65
+    );
+  }
+  drawEatingCat() {
+    this.img.src =
+      "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
+    const spriteWidth = 50;
+    const spriteHeight = 60;
+
+    let column = this.currentFrame % 4;
+
+    if (this.game.frames % 8 === 0) {
+      this.currentFrame++;
+      let maxFrame = 3;
+      if (this.currentFrame > maxFrame) {
+        this.currentFrame = 0;
+      }
     }
-    drawHurtCat() {
-        this.img.src =
-            "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
-        const spriteWidth = 56;
-        const spriteHeight = 60;
-      
-        let column = this.currentFrame % 4;
-    
-        if (this.game.frames % 7 === 0) {
-            this.currentFrame++;
-            let maxFrame = 5;
-            if (this.currentFrame > maxFrame) {
-                this.currentFrame = 0;
-            }
-        }
-        this.game.ctx.drawImage(
-            this.img,
-            column * spriteWidth,
-            824,
-            spriteWidth,
-            spriteHeight,
-            this.x,
-          this.y,
-          66,
-            71
-            // spriteWidth,
-            // spriteHeight
-        );
+    this.game.ctx.drawImage(
+      this.img,
+      column * spriteWidth,
+      453,
+      spriteWidth,
+      spriteHeight,
+      this.x,
+      this.y,
+      60,
+      70
+    );
+  }
+  drawHurtCat() {
+    this.img.src =
+      "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
+    const spriteWidth = 56;
+    const spriteHeight = 60;
+
+    let column = this.currentFrame % 4;
+
+    if (this.game.frames % 7 === 0) {
+      this.currentFrame++;
+      let maxFrame = 5;
+      if (this.currentFrame > maxFrame) {
+        this.currentFrame = 0;
+      }
     }
+    this.game.ctx.drawImage(
+      this.img,
+      column * spriteWidth,
+      824,
+      spriteWidth,
+      spriteHeight,
+      this.x,
+      this.y,
+      66,
+      71
+    );
+  }
 
   moveUp() {
-    if (this.y > 0) {
-      this.y -= 20;
+    if (this.arrowUp && this.y > 0) {
+      this.y -= this.speedY;
     }
   }
   moveDown() {
-    if (this.y + this.height < this.game.height) {
-      this.y += 20;
+    if (this.arrowDown && this.y + this.height < this.game.height) {
+      this.y += this.speedY;
+      
     }
   }
   moveRight() {
-    if (this.x + this.width < this.game.width) {
-      this.x += 20;
+    if (this.arrowRight && this.x + this.width < this.game.width) {
+      this.x += this.speedX;
     }
   }
   moveLeft() {
-    if (this.x > 0) {
-      this.x -= 20;
+    if (this.arrowLeft && this.x > 0) {
+      this.x -= this.speedX;
     }
   }
   left() {
@@ -152,16 +155,16 @@ class Obstacles {
     this.game = game;
 
     if (randomBoolean()) {
-      this.x = Math.floor(Math.random()*(600-50) +50);
+      this.x = Math.floor(Math.random() * (600 - 50) + 50);
       this.y = 0;
     } else {
       this.x = Math.round(Math.random()) * this.game.width;
-      this.y =  Math.floor(Math.random()*100);
+      this.y = Math.floor(Math.random() * 100);
     }
     this.origin = {
       x: this.x,
-      y: this.y
-    }
+      y: this.y,
+    };
     this.width = width;
     this.height = height;
     this.img = new Image();
