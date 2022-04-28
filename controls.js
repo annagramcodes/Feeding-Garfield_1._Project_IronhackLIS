@@ -4,54 +4,28 @@ class Controls {
         this.game = game;
         this.cat = this.game.cat;
     }
-    keyDown() {
+    keyboardEvents() {
         window.addEventListener('keydown', (event) => {
             if (event.code == "ArrowUp") {
-                this.cat.arrowUp = true;
-                this.cat.moveUp();
+                this.cat.isMovingUp = true;
             } else if (event.code == "ArrowDown") {
-                this.cat.arrowDown = true;
-                this.cat.moveDown();
+                this.cat.isMovingDown = true;
             } else if (event.code == 'ArrowLeft') {
-                this.cat.arrowLeft = true;
-                this.cat.moveLeft();
+                this.cat.isMovingLeft = true;
             } else if (event.code == 'ArrowRight') {
-                this.cat.arrowRight = true;
-                this.cat.moveRight();
+                this.cat.isMovingRight = true;
             }
         })
-    }
-    keyUp() {
-        window.addEventListener('keydown', (event) => {
+        window.addEventListener('keyup', (event) => {
             if (event.code == "ArrowUp") {
-                this.cat.arrowUp = false;
+                this.cat.isMovingUp = false;
             } else if (event.code == "ArrowDown") {
-                this.cat.arrowDown = false;
+                this.cat.isMovingDown = false;
             } else if (event.code == 'ArrowLeft') {
-                this.cat.arrowLeft = false;
+                this.cat.isMovingLeft = false;
             } else if (event.code == 'ArrowRight') {
-                this.cat.arrowRight = false;
+                this.cat.isMovingRight = false;
             }
         })
     }
 }
-// keyboardEvents() {
-    // window.addEventListener('keydown', (e) => {
-    //     switch (e.code) {
-    //         case 'ArrowUp':
-    //             this.cat.moveUp();
-    //             break;
-    //         case 'ArrowDown':
-    //             this.cat.moveDown();
-    //             break;
-    //         case 'ArrowLeft':
-    //             this.cat.moveLeft();
-    //             break;
-    //         case 'ArrowRight':
-    //             this.catx.moveRight();
-    //             break;
-    //     }
-    // });
-// }
-// window.addEventListener("keydown", this.keyDown);
-// window.addEventListener("keyup", this.keyUp);

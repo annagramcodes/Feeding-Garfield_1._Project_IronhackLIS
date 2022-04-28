@@ -26,19 +26,61 @@
             </h2>
             <h3 class="instructions">Instructions:</h3>
             <p>
-              Move Garfield with the arrows to avoid the broccoli and carrots
-              and instead navigate him to his favorite foods.
+              Refeed Garfield by avoiding the broccoli & carrots and make him
+              eat cake & lasagne instead.
             </p>
-            <div class="keys-container">
-              <img
-                class="keys"
-                src="./docs/assets/imgs/keys.png"
-                alt="Arrow Keys for Navigation"
-              />
+            <div class="instructions-img-container">
+              <div class="keys-container">
+                <img
+                  class="keys"
+                  src="./docs/assets/imgs/keys.png"
+                  alt="Arrow Keys for Navigation"
+                />
+              </div>
+              <div class="imgcontainer">
+                <div>
+                  <img
+                    class="foodbar-img"
+                    src="./docs/assets/imgs/cake.png"
+                    alt="Cake img"
+                  />
+                  <span> +2kgs</span>
+                </div>
+                <div>
+                  <img
+                    class="foodbar-img"
+                    src="./docs/assets/imgs/lasagne.webp"
+                    alt=" img"
+                  /><span> +1kg</span>
+                </div>
+                <div>
+                  <img
+                    class="foodbar-img"
+                    src="./docs/assets/imgs/brokkoli.png"
+                    alt="Cake img"
+                  /><span> -1kg</span>
+                </div>
+                <div>
+                  <img
+                    class="foodbar-img"
+                    src="./docs/assets/imgs/carrot.png"
+                    alt="Cake img"
+                  />
+                  <span> -1kg</span>
+                </div>
+              </div>
             </div>
-            <p>To win you must collect 10 points, before your time is up!</p>
+            <p>
+              Never let Garfields weight get below 4kgs. To win, his weight has
+              to be 15kgs when the time is up.
+            </p>
           </div>
-          <img src="./docs/assets/imgs/garfield-lasagna.png" alt="" />
+
+          <img
+            class="garfield-startpage"
+            src="./docs/assets/imgs/garfield-lasagna.png"
+            alt=""
+          />
         </div>
         <div class="button-container">
           <button class="start">Start Game</button>
@@ -52,7 +94,7 @@
         <div class="flex-container">
           <h1 class="winner-title">You win!</h1>
           <h2 class="winner-msg">
-            You fed Garfield <span class="num-kg"></span>kgs of Lasagne!
+            You made Garfield gain <span class="num-kg"></span>kgs. Good job!
           </h2>
           <img class="comic" src="" alt="Funny Comic with Garfield" />
           <button id="restart-won">play again</button>

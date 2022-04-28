@@ -11,12 +11,12 @@ class Cat {
     this.isHurt = false;
     this.img = new Image();
     // new key events
-    this.arrowDown = false;
-    this.arrowUp = false;
-    this.arrowLeft = false;
-    this.arrowRight = false;
-    this.speedX = 20;
-    this.speedY = 20;
+    this.isMovingUp = false;
+    this.isMovingDown = false;
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
+    this.speedX = 5;
+    this.speedY = 5;
   }
   draw() {
     this.img.src = "./docs/assets/imgs/596dba64ed07ad6118f99900.png";
@@ -106,23 +106,23 @@ class Cat {
   }
 
   moveUp() {
-    if (this.arrowUp && this.y > 0) {
+    if (this.isMovingUp && this.y > 0) {
       this.y -= this.speedY;
     }
   }
   moveDown() {
-    if (this.arrowDown && this.y + this.height < this.game.height) {
+    if (this.isMovingDown && this.y + this.height < this.game.height) {
       this.y += this.speedY;
       
     }
   }
   moveRight() {
-    if (this.arrowRight && this.x + this.width < this.game.width) {
+    if (this.isMovingRight && this.x + this.width < this.game.width) {
       this.x += this.speedX;
     }
   }
   moveLeft() {
-    if (this.arrowLeft && this.x > 0) {
+    if (this.isMovingLeft && this.x > 0) {
       this.x -= this.speedX;
     }
   }

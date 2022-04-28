@@ -15,28 +15,27 @@ class Game {
     this.y = 0;
     this.background = new Image();
     this.frames = 0;
-    this.score = 0;
-    this.time = 60;
+    this.score = 5;
+    this.time = 0;
     this.cat = null;
     this.lasagne = [];
     this.broccoli = [];
     this.carrot = [];
     this.cake = [];
     this.img = new Image();
+    this.sound = new Audio();
     this.num = Math.floor(Math.random() * 13);
   }
   start() {
     this.cat = new Cat(this, 300, 380, 60, 90);
     this.cat.drawAnimation();
     this.controls = new Controls(this);
-    // this.controls.keyboardEvents();
-      this.controls.keyDown();
-      this.controls.keyUp()
+    this.controls.keyboardEvents();
     this.intervalId = setInterval(() => {
       this.update();
     }, 1000 / 60);
     this.timeIntervalId = setInterval(() => {
-      this.time--;
+      this.time++;
     }, 1000);
     this.scoreIntervalId = setInterval(() => {
       this.keepScore();
@@ -48,11 +47,10 @@ class Game {
   update() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.frames++;
-    //updates canvas
     this.drawBackground();
     this.drawTime();
     this.drawScore();
-    //updates Animation of the cat
+    //CAT ANIMATION
     if (this.cat.isEating === false && this.cat.isHurt === false) {
       this.cat.drawAnimation();
     }
@@ -62,7 +60,21 @@ class Game {
     if (this.cat.isHurt === true) {
       this.cat.drawHurtCat();
     }
+    // CAT MOVEMENT
+    if (this.cat.isMovingLeft) {
+        this.cat.moveLeft()
+      }
+      if (this.cat.isMovingUp) {
+        this.cat.moveUp()
+      } 
+      if (this.cat.isMovingRight) {
+        this.cat.moveRight()
+      } 
+      if (this.cat.isMovingDown) {
+        this.cat.moveDown()
+      }
     //CREATES AND DRAWS FRIENDS & ENEMIES
+    //LASAGNE
     this.createLasagne();
     this.lasagne.forEach((friend) => {
       friend.drawLasagne();
@@ -73,16 +85,24 @@ class Game {
         friend.x += 1;
       }
     });
+    //CAKE
     this.createCake();
     this.cake.forEach((friend) => {
       friend.drawCake();
       friend.y += 2;
     });
+    //BROCCOLI
     this.createBroccoli();
     this.broccoli.forEach((enemy) => {
       enemy.drawBroccoli();
-      enemy.y += 2;
+        enemy.y += 2;
+        if (enemy.origin.x > this.width / 2) {
+            enemy.x -= 1;
+          } else {
+            enemy.x += 1;
+          }
     });
+    //CARROTS
     this.createCarrot();
     this.carrot.forEach((enemy) => {
       enemy.drawCarrot();
@@ -95,50 +115,64 @@ class Game {
     });
     this.checkGameOver();
   }
-
   // PUSHES ENEMIES & FRIENDS INTO ARRAY
   createLasagne() {
-    if (this.frames % 200 === 0) {
+    if (this.frames % 150 === 0) {
       this.lasagne.push(new Obstacles(this, 50, 50));
     }
+    if (this.time > 30 && this.frames % 300 === 0) {
+        this.lasagne.push(new Obstacles(this, 50, 50));
+      }
   }
-  createCake() {
-    if (this.frames % 500 === 0) {
-      this.cake.push(new Obstacles(this, 50, 30));
+    createCake() {
+        if (this.frames % 400 === 0) {
+            this.cake.push(new Obstacles(this, 50, 30));
+        }
     }
-  }
   createBroccoli() {
     if (this.frames % 100 === 0) {
       this.broccoli.push(new Obstacles(this, 50, 30));
     }
+      if (this.time > 30 && this.frames % 200 === 0) {
+        this.broccoli.push(new Obstacles(this, 50, 30));
+      }
   }
   createCarrot() {
     if (this.frames % 100 === 0) {
       this.carrot.push(new Obstacles(this, 50, 50));
-    }
+      }
+      if (this.frames % 200 === 0) {
+        this.carrot.push(new Obstacles(this, 50, 30));
+      }
+      if (this.time > 30 && this.frames % 200 === 0) {
+        this.carrot.push(new Obstacles(this, 50, 30));
+      }
   }
-
-  //Collission Detection
-  crashWithEnemy() {
+ //COLLISSION DETECTION
+  // ENEMY
+    crashWithEnemy() {
+    const cat = this.cat;
     const handlecrash = (enemy, i, arr) => {
       if (cat.crashesWith(enemy)) {
-        this.score--;
+        this.score-=2;
         arr.splice(i, 1);
         this.cat.isHurt = true;
         this.cat.isEating = false;
+        this.makeAngrySound();
         setTimeout(() => {
           this.cat.isHurt = false;
         }, 800);
       }
     };
-    const cat = this.cat;
+    
     const crashedWithCarrot = this.carrot.forEach((enemy, i, arr) => {
       handlecrash(enemy, i, arr);
     });
     const crashedWithBroccoli = this.broccoli.forEach((enemy, i, arr) => {
       handlecrash(enemy, i, arr);
     });
-  }
+    }
+  // FRIEND
   crashWithFriend() {
     const cat = this.cat;
     const crashedWidthLasagne = this.lasagne.forEach((friend, i, arr) => {
@@ -172,22 +206,23 @@ class Game {
     this.crashWithEnemy();
     this.crashWithFriend();
   }
-
   checkGameOver() {
-    if (this.score > 9) {
+    if (this.score > 15 && this.time >= 60) {
       this.stop();
       this.drawWinner();
-    } else if (this.time < 1) {
+    } else if (this.score < 4) {
       this.stop();
       this.drawLoser();
-    }
+    } else if (this.time >= 60 && this.score < 15) {
+        this.stop();
+        this.drawLoser();
+      }
   }
   stop() {
     clearInterval(this.intervalId);
   }
 
   // DRAWING METHODS
-
   drawBackground() {
     // this.ctx.fillStyle = 'white';
     // this.ctx.fillRect(this.x, this.y, this.width, this.height)
@@ -210,19 +245,25 @@ class Game {
     let score = this.score;
     this.ctx.font = "20px sans-serif";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(`Score: ${score}`, 10, 30);
+    this.ctx.fillText(`Kilogramms: ${score}`, 10, 30);
   }
-
   drawWinner() {
     this.canvasContainer.classList.add("hidden");
     this.gameoverScreenWinner.classList.remove("hidden");
     this.comic.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
-    this.numKg.innerHTML = `${Math.floor(Math.random() * (27 - 8) + 8)}`;
+    this.numKg.innerHTML = `${this.score - 5}`;
     const fireworks = new window.Fireworks(document.querySelector('.fireworks'));
     fireworks.start();
   }
   drawLoser() {
     this.canvasContainer.classList.add("hidden");
     this.gameoverScreenLoser.classList.remove("hidden");
+  }
+  // SOUNDS
+  makeAngrySound() {
+  this.sound.src = './docs/assets/sounds/mixkit-angry-cartoon-kitty-meow-94.wav';
+    this.sound.volume = 0.05;
+    this.sound.loop = false;
+    this.sound.play();
   }
 }
