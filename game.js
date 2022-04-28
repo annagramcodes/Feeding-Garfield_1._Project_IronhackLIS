@@ -24,11 +24,12 @@ class Game {
     this.cake = [];
     this.img = new Image();
     this.sound = new Audio();
-    this.num = Math.floor(Math.random() * 13);
+    this.num = Math.floor(Math.random() * 13); 
   }
+  // STARTS THE GAME
   start() {
     this.cat = new Cat(this, 300, 380, 60, 90);
-    this.cat.drawAnimation();
+    this.cat.drawMovingCat();
     this.controls = new Controls(this);
     this.controls.keyboardEvents();
     this.intervalId = setInterval(() => {
@@ -40,10 +41,8 @@ class Game {
     this.scoreIntervalId = setInterval(() => {
       this.keepScore();
     }, 500);
-
   }
-
-  // UPDATES THE CANVAS
+  // UPDATING THE CANVAS
   update() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.frames++;
@@ -51,30 +50,9 @@ class Game {
     this.drawTime();
     this.drawScore();
     //CAT ANIMATION
-    if (this.cat.isEating === false && this.cat.isHurt === false) {
-      this.cat.drawAnimation();
-    }
-    if (this.cat.isEating === true) {
-      this.cat.drawEatingCat();
-    }
-    if (this.cat.isHurt === true) {
-      this.cat.drawHurtCat();
-    }
-    // CAT MOVEMENT
-    if (this.cat.isMovingLeft) {
-        this.cat.moveLeft()
-      }
-      if (this.cat.isMovingUp) {
-        this.cat.moveUp()
-      } 
-      if (this.cat.isMovingRight) {
-        this.cat.moveRight()
-      } 
-      if (this.cat.isMovingDown) {
-        this.cat.moveDown()
-      }
-    //CREATES AND DRAWS FRIENDS & ENEMIES
-    //LASAGNE
+    this.animateCat();
+    this.moveCat();
+    //CREATES & DRAWS LASAGNE
     this.createLasagne();
     this.lasagne.forEach((friend) => {
       friend.drawLasagne();
@@ -85,13 +63,13 @@ class Game {
         friend.x += 1;
       }
     });
-    //CAKE
+    //CREATES & DRAWS CAKE
     this.createCake();
     this.cake.forEach((friend) => {
       friend.drawCake();
       friend.y += 2;
     });
-    //BROCCOLI
+    //CREATES & DRAWS BROCCOLI
     this.createBroccoli();
     this.broccoli.forEach((enemy) => {
       enemy.drawBroccoli();
@@ -102,7 +80,7 @@ class Game {
             enemy.x += 1;
           }
     });
-    //CARROTS
+    //CREATES & DRAWS CARROTS
     this.createCarrot();
     this.carrot.forEach((enemy) => {
       enemy.drawCarrot();
@@ -115,7 +93,7 @@ class Game {
     });
     this.checkGameOver();
   }
-  // PUSHES ENEMIES & FRIENDS INTO ARRAY
+  // LETS ENEMIES AND FRIENDS APPEAR ON CANVAS
   createLasagne() {
     if (this.frames % 150 === 0) {
       this.lasagne.push(new Obstacles(this, 50, 50));
@@ -148,15 +126,14 @@ class Game {
         this.carrot.push(new Obstacles(this, 50, 30));
       }
   }
- //COLLISSION DETECTION
-  // ENEMY
+ //COLLISSION DETECTION - ENEMY
     crashWithEnemy() {
     const cat = this.cat;
-    const handlecrash = (enemy, i, arr) => {
+    const handleCrash = (enemy, i, arr) => {
       if (cat.crashesWith(enemy)) {
+        this.makeAngrySound();
         this.score-=2;
         arr.splice(i, 1);
-        this.makeAngrySound();
         this.cat.isHurt = true;
         this.cat.isEating = false;
         setTimeout(() => {
@@ -164,19 +141,19 @@ class Game {
         }, 800);
       }
     };
-    
-    const crashedWithCarrot = this.carrot.forEach((enemy, i, arr) => {
-      handlecrash(enemy, i, arr);
+    this.carrot.forEach((enemy, i, arr) => {
+      handleCrash(enemy, i, arr);
     });
-    const crashedWithBroccoli = this.broccoli.forEach((enemy, i, arr) => {
-      handlecrash(enemy, i, arr);
+    this.broccoli.forEach((enemy, i, arr) => {
+      handleCrash(enemy, i, arr);
     });
     }
-  // FRIEND
+  //COLLISSION DETECTION - FRIEND
   crashWithFriend() {
     const cat = this.cat;
-    const crashedWidthLasagne = this.lasagne.forEach((friend, i, arr) => {
+      this.lasagne.forEach((friend, i, arr) => {
       if (cat.crashesWith(friend)) {
+        this.makeFriendlySound();
         this.score++;
         arr.splice(i, 1);
         this.cat.isEating = true;
@@ -186,7 +163,7 @@ class Game {
         }, 800);
       }
     });
-    const crashedWithCake = this.cake.forEach((friend, i, arr) => {
+     this.cake.forEach((friend, i, arr) => {
       if (cat.crashesWith(friend)) {
         this.score += 2;
         arr.splice(i, 1);
@@ -202,7 +179,6 @@ class Game {
   }
   // SCORE KEEPING & CHECK GAME OVER
   keepScore() {
-    let score = this.score;
     this.crashWithEnemy();
     this.crashWithFriend();
   }
@@ -210,13 +186,10 @@ class Game {
     if (this.score > 15 && this.time >= 60) {
       this.stop();
       this.drawWinner();
-    } else if (this.score < 3) {
+    } else if (this.score < 3 || (this.time >= 60 && this.score < 15)) {
       this.stop();
       this.drawLoser();
-    } else if (this.time >= 60 && this.score < 15) {
-        this.stop();
-      this.drawLoser();
-      }
+    } 
   }
   stop() {
     clearInterval(this.intervalId);
@@ -249,8 +222,6 @@ class Game {
     this.gameoverScreenWinner.classList.remove("hidden");
     this.comic.src = `./docs/assets/imgs/garfieldcomic${this.num}.jpg`;
     this.numKg.innerHTML = `${this.score - 5}`;
-    const fireworks = new window.Fireworks(document.querySelector('.fireworks'));
-    fireworks.start();
   }
   drawLoser() {
     this.canvasContainer.classList.add("hidden");
@@ -264,10 +235,42 @@ class Game {
     this.sound.loop = false;
     this.sound.play();
   }
-  loserSound() {
-    this.sound.src = './docs/assets/sounds/This Sucks.mp3';
+  makeFriendlySound() {
+    this.sound.src = './docs/assets/sounds/mixkit-hungry-man-eating-2252.wav';
       this.sound.volume = 0.05;
       this.sound.loop = false;
       this.sound.play();
     }
+  loserSound() {
+    this.sound.src = './docs/assets/sounds/thisSucks.mp3';
+      this.sound.volume = 0.05;
+      this.sound.loop = false;
+      this.sound.play();
+  }
+   // CAT MOVEMENT
+  moveCat() {
+    if (this.cat.isMovingLeft) {
+      this.cat.moveLeft()
+    }
+    if (this.cat.isMovingUp) {
+      this.cat.moveUp()
+    } 
+    if (this.cat.isMovingRight) {
+      this.cat.moveRight()
+    } 
+    if (this.cat.isMovingDown) {
+      this.cat.moveDown()
+    }
+  }
+  animateCat() {
+    if (this.cat.isEating === false && this.cat.isHurt === false) {
+      this.cat.drawMovingCat();
+    }
+    if (this.cat.isEating === true) {
+      this.cat.drawEatingCat();
+    }
+    if (this.cat.isHurt === true) {
+      this.cat.drawHurtCat();
+    }
+  }
 }

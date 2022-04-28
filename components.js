@@ -10,7 +10,6 @@ class Cat {
     this.isEating = false;
     this.isHurt = false;
     this.img = new Image();
-    // new key events
     this.isMovingUp = false;
     this.isMovingDown = false;
     this.isMovingLeft = false;
@@ -22,16 +21,15 @@ class Cat {
     this.img.src = "./docs/assets/imgs/596dba64ed07ad6118f99900.png";
     this.game.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-  drawAnimation() {
+  drawMovingCat() {
     this.img.src =
       "./docs/assets/imgs/DS_DSi_-_Garfields_Fun_Fest_-_Garfield-removebg.png";
     const spriteWidth = 35;
     const spriteHeight = 54;
 
     let column = this.currentFrame % 5;
-    let row = 4;
 
-    if (this.game.frames % 8 === 0) {
+    if (this.game.frames % 8 === 0 && this.isMoving()) {
       this.currentFrame++;
       let maxFrame = 4;
       if (this.currentFrame > maxFrame) {
@@ -147,6 +145,9 @@ class Cat {
       this.right() < obstacle.left() ||
       this.left() > obstacle.right()
     );
+  }
+  isMoving() {
+    return this.isMovingDown || this.isMovingLeft || this.isMovingRight || this.isMovingUp
   }
 }
 

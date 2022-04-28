@@ -1,7 +1,7 @@
 * {
   font-family: "VT323", monospace;
 }
-
+/* COLOR SYSTEM AND BACKGROUND */
 :root {
   --color-garfield-100: #fceed4;
   --color-garfield-200: #fce2b1;
@@ -25,6 +25,7 @@
   background-blend-mode: soft-light, screen;
 }
 
+/* CANVAS */
 #canvas {
   border: 5px solid var(--color-garfield-900);
 }
@@ -44,6 +45,8 @@ button {
 button:hover {
   transition: background-color 100ms ease-in-out;
 }
+
+/* STARTSCREEN */
 .intro-container {
   display: flex;
   max-width: 63vw;
@@ -58,9 +61,8 @@ button:hover {
   font-size: 2rem;
   font-weight: bold;
 }
-
 .intro-text p {
-  font-size: 2rem;
+  font-size: 1.8rem;
   padding-bottom: 1rem;
 }
 .intro-text {
@@ -69,11 +71,9 @@ button:hover {
 .garfield-startpage {
   max-height: 530px;
 }
-
 .foodbar-img {
   max-height: 25px;
 }
-
 .instructions-img-container {
   display: flex;
   gap: 10px;
@@ -85,14 +85,12 @@ button:hover {
   gap: 20px;
   justify-content: center;
 }
-
 .keys {
   max-width: 7vw;
   margin: 0 auto;
   display: block;
   padding-bottom: 1rem;
 }
-
 .start {
   border-radius: 2.5em;
   border: 3px solid var(--color-garfield-500);
@@ -110,15 +108,14 @@ button:hover {
 #restart-lost:hover {
   background-color: var(--color-garfield-200);
 }
-
 .button-container {
   padding-top: 2rem;
 }
 .button-container .start {
   margin: 0 auto;
 }
-/* GAME OVER SCREEN  WINNER*/
 
+/* GAME OVER SCREEN  WINNER*/
 .winner-title {
   font-size: 4.5rem;
   text-align: center;
@@ -185,14 +182,7 @@ button:hover {
   background-color: var(--color-garfield-100);
 }
 
+/* UTILS */
 .hidden {
   display: none;
-}
-.fireworks {
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  pointer-events: none;
 }
